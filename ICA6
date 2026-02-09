@@ -1,0 +1,25 @@
+#1. read the titanic.csv file and assign it to a data frame called df.
+import pandas as pd
+file_path = '/content/drive/MyDrive/DATA/titanic.csv'
+df = pd.read_csv(file_path)
+display(df.head())
+
+#2. Use the summary function to get a statistical summary of data frame.
+# In pandas, use .describe() for this.
+print("--- Statistical Summary ---")
+display(df.describe())
+# Columns with meaningful statistical summaries (mean/median) are numerical ones like Age, SibSp, Parch, and Fare.
+
+#3. Assign the rows that don't have NA value for the Age column from df to df2.
+df2 = df[df['Age'].notna()]
+print(f"Rows in df2 (non-NA Age): {len(df2)}")
+
+#4. Assign those rows which have Survived passenger under the age of 30 to another data frame called younger.
+younger = df2[(df2['Survived'] == 1) & (df2['Age'] < 30)]
+print(f"Number of survivors under 30: {len(younger)}")
+display(younger.head())
+
+#5. Assign those rows which have Survived passengers at the age of 30 and above to another data frame called older.
+older = df2[(df2['Survived'] == 1) & (df2['Age'] >= 30)]
+print(f"Number of survivors 30 and older: {len(older)}")
+display(older.head())

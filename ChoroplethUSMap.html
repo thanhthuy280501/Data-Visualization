@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>2016 Election Choropleth - Leaflet</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        #map {
+            height: 600px;
+            width: 800px;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+
+<script type="text/javascript" src="http://www-personal.umich.edu/~bisgin/2016elections.js"></script>
+
+<script type="text/javascript">
+
+    var map = L.map('map').setView([37.8, -96], 4);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Step 4c: getColor function returns red for Trump and blue for Clinton [cite: 41]
+    function getColor(d) {
+        if (d === "Trump") {
+            return '#FF0000'; // Red [cite: 42]
+        } else if (d === "Clinton") {
+            return '#0000FF'; // Blue [cite: 42]
+        } else {
+            return '#FFFFFF'; // White for others
+        }
+    }
+
+    // Step 4b: Modify style() to see "winner" in the .js file 
+    function style(feature) {
+        return {
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7,
+            fillColor: getColor(feature.properties.winner) // Pulls winner property 
+        };
+    }
+
+    // Use the variable from the external JS file (likely statesData or electionData)
+    // If the map is still blank, ensure the variable name matches the .js file content
+    var geojson = L.geoJson(statesData, {
+    style: style,
+      }).addTo(map);
+</script>
+
+</body>
+</html>

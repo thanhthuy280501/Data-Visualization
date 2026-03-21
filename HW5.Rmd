@@ -1,0 +1,34 @@
+---
+title: "HW5"
+output: html_document
+date: "2026-03-21"
+---
+## California Wind Turbines Map
+
+```{r}
+# Load libraries
+library(ggplot2)
+library(mapdata)
+
+# Load state data and filter for California
+states_data <- map_data("state")
+california <- subset(states_data, region == "california")
+
+# Load turbine data and filter for CA
+load("DATA/wind_turbines.rda")
+wind_ca <- subset(wind_turbines, t_state == "CA")
+
+
+# Create the map
+ggplot() +
+  # Draw California
+  geom_polygon(data = california, aes(x = long, y = lat, group = group), 
+               fill = "steelblue", color = "white") +
+  # Add turbine points using the correct column names from your console
+  geom_point(data = wind_ca, aes(x = xlong, y = ylat), 
+             color = "red", alpha = 0.5) +
+  # Formatting as required by the assignment
+  guides(fill = "none") +
+  labs(x = "long", y = "lat") +
+  coord_fixed(1.3)
+```
